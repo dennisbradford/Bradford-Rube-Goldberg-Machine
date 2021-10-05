@@ -4,25 +4,17 @@ using UnityEngine;
 
 public class CameraTrigger1 : MonoBehaviour
 {
-    public Camera cam;
+    public CameraMove cam;
     public Transform newPosition;
+    public MyRedBall ball;
     private Vector3 endPosition;
-    private Vector3 startPosition;
-    private float desiredDuration = 0.5f;
-    private float elapsedTime;
 
-    void Start(){
-        endPosition = cam.transform.position;
-    }
   void OnTriggerEnter2D(Collider2D collision){
-      elapsedTime = 0;
-      startPosition = cam.transform.position;
-      endPosition = new Vector3(newPosition.transform.position.x, newPosition.transform.position.y, cam.transform.position.z);
+        if (collision.gameObject == ball.gameObject){
+            Debug.Log("Ball has entered trigger area");
+            endPosition = new Vector3(newPosition.transform.position.x, newPosition.transform.position.y, cam.transform.position.z);
+            cam.SetEndPosition(endPosition);
+        }
   }
 
-  void Update(){
-      elapsedTime += Time.deltaTime;
-      float percentageComplete = elapsedTime / desiredDuration;
-      cam.transform.position = Vector3.Lerp(startPosition, endPosition, percentageComplete);
-  }
 }
